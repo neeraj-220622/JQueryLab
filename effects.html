@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effects | JQueryLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .effect-box {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 0.5rem;
+            margin: 1rem auto;
+            position: relative;
+        }
+        .anim-area {
+            height: 250px;
+            border: 1px dashed var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2 style="font-family: 'Outfit', sans-serif; color: var(--primary);">JQueryLab</h2>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="selectors.html">Selectors</a>
+            <a href="attributes.html">Attributes</a>
+            <a href="events.html">Events</a>
+            <a href="style.html">Style</a>
+            <a href="traversing.html">Traversing</a>
+            <a href="effects.html" class="active">Effects</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>jQuery Effects & Animation</h1>
+        <p style="color: var(--text-muted);">Bring your interface to life with smooth transitions and custom motion.</p>
+
+        <section class="card-grid" style="margin-top: 2rem;">
+            <!-- Basic and Fade Effects -->
+            <div class="card">
+                <h3>Basic & Fade Effects</h3>
+                <div class="demo-area" style="text-align: center;">
+                    <div id="fade-box" class="effect-box"></div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-toggle-basic">show/hide/toggle</button>
+                    <button class="btn btn-outline" id="btn-fade-in">fadeIn()</button>
+                    <button class="btn btn-outline" id="btn-fade-out">fadeOut()</button>
+                    <button class="btn btn-outline" id="btn-fade-to">fadeTo(0.5)</button>
+                </div>
+            </div>
+
+            <!-- Sliding Effects -->
+            <div class="card">
+                <h3>Sliding Effects</h3>
+                <div class="demo-area">
+                    <div id="slide-panel" style="background: var(--surface); padding: 2rem; border-radius: 0.5rem; border: 1px solid var(--border); text-align: center;">
+                        Sliding Content Panel
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-slide-up">slideUp()</button>
+                    <button class="btn btn-outline" id="btn-slide-down">slideDown()</button>
+                    <button class="btn btn-outline" id="btn-slide-toggle">slideToggle()</button>
+                </div>
+            </div>
+
+            <!-- Custom Animation -->
+            <div class="card" style="grid-column: span 1;">
+                <h3>Custom animate()</h3>
+                <div class="demo-area anim-area">
+                    <div id="anim-box" class="effect-box" style="margin: 20px;"></div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-move">Move & Resize</button>
+                    <button class="btn btn-outline" id="btn-sequence">Complex Sequence</button>
+                    <button class="btn btn-outline" id="btn-stop" style="background: var(--danger); border-color: var(--danger); color: white;">stop()</button>
+                    <button class="btn btn-outline" id="btn-finish">finish()</button>
+                </div>
+            </div>
+
+            <!-- Animation Controls -->
+            <div class="card">
+                <h3>Queue & Controls</h3>
+                <div class="demo-area">
+                    <p id="queue-status" style="margin-bottom: 1rem;">Queue Status: Idle</p>
+                    <div id="control-box" class="effect-box" style="background: var(--success); width: 60px; height: 60px; margin: 0 auto;"></div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-delay">Add delay(1000)</button>
+                    <button class="btn btn-outline" id="btn-queue-demo">Show Queue</button>
+                    <button class="btn btn-outline" id="btn-dequeue">dequeue()</button>
+                    <button class="btn btn-outline" id="btn-clear-queue">clearQueue()</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="log-panel" id="log-list">
+            <div class="log-entry">Animation logs will appear here...</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            function logToUI(msg) {
+                let logElem = $("#log-list");
+                logElem.prepend('<div class="log-entry">[' + new Date().toLocaleTimeString() + '] <span>' + msg + '</span></div>');
+            }
+
+            // Basic / Fade
+            $("#btn-toggle-basic").on("click", function() {
+                $("#fade-box").toggle(500);
+                logToUI("toggle(500) triggered.");
+            });
+            $("#btn-fade-in").on("click", function() {
+                $("#fade-box").fadeIn(1000);
+                logToUI("fadeIn(1000) triggered.");
+            });
+            $("#btn-fade-out").on("click", function() {
+                $("#fade-box").fadeOut(1000);
+                logToUI("fadeOut(1000) triggered.");
+            });
+            $("#btn-fade-to").on("click", function() {
+                $("#fade-box").fadeTo(500, 0.5);
+                logToUI("fadeTo(500, 0.5) triggered.");
+            });
+
+            // Sliding
+            $("#btn-slide-up").on("click", function() {
+                $("#slide-panel").slideUp(800);
+                logToUI("slideUp(800) triggered.");
+            });
+            $("#btn-slide-down").on("click", function() {
+                $("#slide-panel").slideDown(800);
+                logToUI("slideDown(800) triggered.");
+            });
+            $("#btn-slide-toggle").on("click", function() {
+                $("#slide-panel").slideToggle(800);
+                logToUI("slideToggle(800) triggered.");
+            });
+
+            // Custom animate()
+            $("#btn-move").on("click", function() {
+                $("#anim-box").animate({
+                    left: '+=150px',
+                    width: '150px',
+                    opacity: 0.5
+                }, 1000).animate({
+                    left: '0px',
+                    width: '100px',
+                    opacity: 1
+                }, 1000);
+                logToUI("animate({left, width, opacity}) initiated.");
+            });
+
+            $("#btn-sequence").on("click", function() {
+                $("#anim-box")
+                    .animate({ top: '100px' }, 1000)
+                    .animate({ left: '200px' }, 1000)
+                    .animate({ top: '0px' }, 1000)
+                    .animate({ left: '0px' }, 1000);
+                logToUI("Complex move sequence queued.");
+            });
+
+            $("#btn-stop").on("click", function() {
+                $("#anim-box").stop();
+                logToUI("stop() current animation.");
+            });
+
+            $("#btn-finish").on("click", function() {
+                $("#anim-box").finish();
+                logToUI("finish() jumped to end.");
+            });
+
+            // Controls
+            $("#btn-delay").on("click", function() {
+                $("#control-box")
+                    .fadeOut(500)
+                    .delay(1000)
+                    .fadeIn(500);
+                logToUI("Sequence with delay(1000) initiated.");
+            });
+
+            $("#btn-queue-demo").on("click", function() {
+                let q = $("#anim-box").queue("fx");
+                $("#queue-status").text("Queue Length: " + q.length);
+                logToUI("Current Animation Queue Length: " + q.length);
+            });
+
+            $("#btn-clear-queue").on("click", function() {
+                $("#anim-box").clearQueue();
+                logToUI("clearQueue() executed.");
+            });
+        });
+    </script>
+</body>
+</html>

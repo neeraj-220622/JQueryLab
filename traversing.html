@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traversing | JQueryLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .traversal-box {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            margin: 0.5rem;
+        }
+        .highlight {
+            background-color: var(--primary) !important;
+            color: #fff !important;
+            border-color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2 style="font-family: 'Outfit', sans-serif; color: var(--primary);">JQueryLab</h2>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="selectors.html">Selectors</a>
+            <a href="attributes.html">Attributes</a>
+            <a href="events.html">Events</a>
+            <a href="style.html">Style</a>
+            <a href="traversing.html" class="active">Traversing</a>
+            <a href="effects.html">Effects</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>DOM Traversing</h1>
+        <p style="color: var(--text-muted);">Navigate the tree structure of your HTML document.</p>
+
+        <section class="card-grid" style="margin-top: 2rem;">
+            <!-- Parent Traversal -->
+            <div class="card">
+                <h3>Parent Traversal</h3>
+                <div class="demo-area" id="parent-demo-area">
+                    <div class="traversal-box ancestor-2">
+                        Ancestor 2
+                        <div class="traversal-box ancestor-1">
+                            Ancestor 1
+                            <div class="traversal-box target-child">Target Child</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-parent">parent()</button>
+                    <button class="btn btn-outline" id="btn-parents">parents()</button>
+                    <button class="btn btn-outline" id="btn-parents-until">parentsUntil()</button>
+                    <button class="btn btn-outline" id="btn-reset-parents">Reset</button>
+                </div>
+            </div>
+
+            <!-- Children Traversal -->
+            <div class="card">
+                <h3>Children & Find</h3>
+                <div class="demo-area" id="children-demo-area">
+                    <div class="traversal-box parent-container">
+                        Parent Container
+                        <div class="traversal-box direct-child">Direct Child 1</div>
+                        <div class="traversal-box direct-child">Direct Child 2
+                            <div class="traversal-box descendant">Deep Descendant</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-children">children()</button>
+                    <button class="btn btn-outline" id="btn-find">find('.descendant')</button>
+                    <button class="btn btn-outline" id="btn-reset-children">Reset</button>
+                </div>
+            </div>
+
+            <!-- Sibling Traversal -->
+            <div class="card">
+                <h3>Sibling Traversal</h3>
+                <div class="demo-area" id="sibling-demo-area">
+                    <div class="traversal-box sib">Sib 1</div>
+                    <div class="traversal-box sib">Sib 2</div>
+                    <div class="traversal-box sib target-sib">Target Sib (Index 2)</div>
+                    <div class="traversal-box sib">Sib 4</div>
+                    <div class="traversal-box sib stop-here">Sib 5 (Stop point)</div>
+                    <div class="traversal-box sib">Sib 6</div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-next">next()</button>
+                    <button class="btn btn-outline" id="btn-prev">prev()</button>
+                    <button class="btn btn-outline" id="btn-siblings">siblings()</button>
+                    <button class="btn btn-outline" id="btn-nextuntil">nextUntil('.stop-here')</button>
+                    <button class="btn btn-outline" id="btn-reset-siblings">Reset</button>
+                </div>
+            </div>
+
+            <!-- Filtering Methods -->
+            <div class="card">
+                <h3>Filtering Methods</h3>
+                <div class="demo-area" id="filter-demo-area">
+                    <div class="traversal-box fil">Filter 1</div>
+                    <div class="traversal-box fil special">Filter 2 (Special)</div>
+                    <div class="traversal-box fil">Filter 3</div>
+                    <div class="traversal-box fil special">Filter 4 (Special)</div>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-first">first()</button>
+                    <button class="btn btn-outline" id="btn-last">last()</button>
+                    <button class="btn btn-outline" id="btn-eq">eq(1)</button>
+                    <button class="btn btn-outline" id="btn-filter">filter('.special')</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="log-panel" id="log-list">
+            <div class="log-entry">Traversal logs will appear here...</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            function logToUI(msg) {
+                $("#log-list").prepend('<div class="log-entry">[' + new Date().toLocaleTimeString() + '] <span>' + msg + '</span></div>');
+            }
+
+            function clearHighlights() {
+                $(".traversal-box").removeClass("highlight");
+            }
+
+            // Parent Traversal
+            $("#btn-parent").on("click", function() {
+                clearHighlights();
+                $(".target-child").parent().addClass("highlight");
+                logToUI("Executed parent() on target child.");
+            });
+            $("#btn-parents").on("click", function() {
+                clearHighlights();
+                $(".target-child").parents(".traversal-box").addClass("highlight");
+                logToUI("Executed parents() on target child.");
+            });
+            $("#btn-parents-until").on("click", function() {
+                clearHighlights();
+                $(".target-child").parentsUntil(".ancestor-2").addClass("highlight");
+                logToUI("Executed parentsUntil('.ancestor-2')");
+            });
+            $("#btn-reset-parents").on("click", clearHighlights);
+
+            // Children Traversal
+            $("#btn-children").on("click", function() {
+                clearHighlights();
+                $(".parent-container").children().addClass("highlight");
+                logToUI("Executed children() on parent container.");
+            });
+            $("#btn-find").on("click", function() {
+                clearHighlights();
+                $(".parent-container").find(".descendant").addClass("highlight");
+                logToUI("Executed find('.descendant') on parent container.");
+            });
+            $("#btn-reset-children").on("click", clearHighlights);
+
+            // Sibling Traversal
+            $("#btn-next").on("click", function() {
+                clearHighlights();
+                $(".target-sib").next().addClass("highlight");
+                logToUI("Executed next() on target sibling.");
+            });
+            $("#btn-prev").on("click", function() {
+                clearHighlights();
+                $(".target-sib").prev().addClass("highlight");
+                logToUI("Executed prev() on target sibling.");
+            });
+            $("#btn-siblings").on("click", function() {
+                clearHighlights();
+                $(".target-sib").siblings().addClass("highlight");
+                logToUI("Executed siblings() on target sibling.");
+            });
+            $("#btn-nextuntil").on("click", function() {
+                clearHighlights();
+                $(".target-sib").nextUntil(".stop-here").addClass("highlight");
+                logToUI("Executed nextUntil('.stop-here')");
+            });
+            $("#btn-reset-siblings").on("click", clearHighlights);
+
+            // Filtering
+            $("#btn-first").on("click", function() {
+                clearHighlights();
+                $(".fil").first().addClass("highlight");
+                logToUI("Executed first()");
+            });
+            $("#btn-last").on("click", function() {
+                clearHighlights();
+                $(".fil").last().addClass("highlight");
+                logToUI("Executed last()");
+            });
+            $("#btn-eq").on("click", function() {
+                clearHighlights();
+                $(".fil").eq(1).addClass("highlight");
+                logToUI("Executed eq(1)");
+            });
+            $("#btn-filter").on("click", function() {
+                clearHighlights();
+                $(".fil").filter(".special").addClass("highlight");
+                logToUI("Executed filter('.special')");
+            });
+        });
+    </script>
+</body>
+</html>

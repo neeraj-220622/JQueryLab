@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style | JQueryLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .highlight-card {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        .vibrant-theme {
+            background-color: #4338ca !important;
+            color: #fff !important;
+        }
+        .vibrant-theme h3 {
+            color: #fff !important;
+        }
+        .vibrant-theme p {
+            color: #e0e7ff !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2 style="font-family: 'Outfit', sans-serif; color: var(--primary);">JQueryLab</h2>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="selectors.html">Selectors</a>
+            <a href="attributes.html">Attributes</a>
+            <a href="events.html">Events</a>
+            <a href="style.html" class="active">Style</a>
+            <a href="traversing.html">Traversing</a>
+            <a href="effects.html">Effects</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Style Manipulation</h1>
+        <p style="color: var(--text-muted);">Dynamically control CSS and class lists.</p>
+
+        <section class="card-grid" style="margin-top: 2rem;">
+            <!-- css() -->
+            <div class="card" id="css-demo-card">
+                <h3>css() Methods</h3>
+                <div class="demo-area" id="css-demo-box" style="padding: 2rem; border-radius: 0.5rem; text-align: center;">
+                    Dynamic Styling Area
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" id="btn-color">Change Color</button>
+                    <button class="btn btn-outline" id="btn-font">Change Font Size</button>
+                    <button class="btn btn-outline" id="btn-bg">Change Background</button>
+                    <button class="btn btn-outline" id="btn-reset">Reset CSS</button>
+                </div>
+            </div>
+
+            <!-- Class Methods -->
+            <div class="card" id="class-demo-card">
+                <h3>Class Management</h3>
+                <div class="demo-area" id="class-demo-box" style="padding: 1.5rem; margin-bottom: 1rem;">
+                    Demonstrating addClass, removeClass, and toggleClass.
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" id="btn-add">addClass()</button>
+                    <button class="btn btn-outline" id="btn-remove">removeClass()</button>
+                    <button class="btn btn-outline" id="btn-toggle">toggleClass()</button>
+                    <button class="btn btn-outline" id="btn-check">hasClass()</button>
+                </div>
+            </div>
+
+            <!-- Theme Toggling -->
+            <div class="card" id="theme-demo-card">
+                <h3>Theme Switching</h3>
+                <p style="margin-bottom: 2rem; color: var(--text-muted);">Toggle between a subtle dark card and a vibrant primary-colored theme.</p>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-outline" id="btn-theme-toggle" style="width: 100%;">Toggle Vibrant Mode</button>
+                </div>
+                <p id="theme-status" style="margin-top: 1rem; font-size: 0.85rem;"></p>
+            </div>
+        </section>
+
+        <div class="log-panel" id="log-list">
+            <div class="log-entry">Style logs will appear here...</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            function logToUI(msg) {
+                $("#log-list").prepend('<div class="log-entry">[' + new Date().toLocaleTimeString() + '] <span>' + msg + '</span></div>');
+            }
+
+            // css() methods
+            $("#btn-color").on("click", function() {
+                $("#css-demo-box").css("color", "var(--accent)");
+                logToUI("Applied css('color', 'var(--accent)')");
+            });
+            $("#btn-font").on("click", function() {
+                $("#css-demo-box").css("font-size", "1.5rem");
+                logToUI("Applied css('font-size', '1.5rem')");
+            });
+            $("#btn-bg").on("click", function() {
+                $("#css-demo-box").css("background-color", "rgba(79, 70, 229, 0.2)");
+                logToUI("Applied css('background-color', 'rgba(79, 70, 229, 0.2)')");
+            });
+            $("#btn-reset").on("click", function() {
+                $("#css-demo-box").attr("style", "");
+                logToUI("Reset CSS style attribute.");
+            });
+
+            // Class Management
+            $("#btn-add").on("click", function() {
+                $("#class-demo-box").addClass("highlight-card");
+                logToUI("Executed addClass('highlight-card')");
+            });
+            $("#btn-remove").on("click", function() {
+                $("#class-demo-box").removeClass("highlight-card");
+                logToUI("Executed removeClass('highlight-card')");
+            });
+            $("#btn-toggle").on("click", function() {
+                $("#class-demo-box").toggleClass("highlight-card");
+                logToUI("Executed toggleClass('highlight-card')");
+            });
+            $("#btn-check").on("click", function() {
+                let has = $("#class-demo-box").hasClass("highlight-card");
+                $("#theme-status").text("Has Highlight Class: " + has);
+                logToUI("Checking hasClass('highlight-card'): " + has);
+            });
+
+            // Theme switching
+            $("#btn-theme-toggle").on("click", function() {
+                $("#theme-demo-card").toggleClass("vibrant-theme");
+                logToUI("Toggled 'vibrant-theme' on Theme Card");
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | JQueryLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2 style="font-family: 'Outfit', sans-serif; color: var(--primary);">JQueryLab</h2>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="selectors.html">Selectors</a>
+            <a href="attributes.html">Attributes</a>
+            <a href="events.html" class="active">Events</a>
+            <a href="style.html">Style</a>
+            <a href="traversing.html">Traversing</a>
+            <a href="effects.html">Effects</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Event Handling</h1>
+        <p style="color: var(--text-muted);">Interact with the user through mouse, keyboard, and form events.</p>
+
+        <section class="card-grid" style="margin-top: 2rem;">
+            <!-- Mouse Events -->
+            <div class="card">
+                <h3>Mouse Events</h3>
+                <div class="demo-area" id="mouse-demo" style="height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; border-style: solid; border-width: 2px;">
+                    <p id="mouse-status">Hover, Click, or Drag here</p>
+                </div>
+                <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" id="btn-click">click()</button>
+                    <button class="btn btn-outline" id="btn-dblclick">dblclick()</button>
+                    <button class="btn btn-outline" id="btn-hover">hover()</button>
+                    <button class="btn btn-outline" id="btn-mousedown">mousedown()</button>
+                </div>
+            </div>
+
+            <!-- Keyboard Events -->
+            <div class="card">
+                <h3>Keyboard Events</h3>
+                <div class="demo-area">
+                    <input type="text" id="keyboard-input" placeholder="Type here..." style="width: 100%; padding: 0.75rem; border-radius: 0.25rem; border: 1px solid var(--border); background: var(--bg-dark); color: white; margin-bottom: 0.5rem;">
+                    <p id="key-status" style="color: var(--primary); font-family: monospace;">Key: None | Code: None</p>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">Testing focus(), blur(), keydown(), keyup().</p>
+            </div>
+
+            <!-- Form Events -->
+            <div class="card">
+                <h3>Form Events</h3>
+                <form id="demo-form" class="demo-area">
+                    <div style="margin-bottom: 1rem;">
+                        <select id="form-select" style="width: 100%; padding: 0.5rem; background: var(--bg-dark); color: white; border: 1px solid var(--border);">
+                            <option value="none">Choose an option...</option>
+                            <option value="apple">Apple</option>
+                            <option value="banana">Banana</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Submit Form</button>
+                </form>
+                <p id="form-status" style="margin-top: 1rem; font-weight: 600; color: var(--success);"></p>
+            </div>
+
+            <!-- on/off demo -->
+            <div class="card">
+                <h3>Advanced (on/off)</h3>
+                <div class="demo-area" id="advanced-demo">
+                    <p>Testing manual event binding.</p>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" id="btn-bind">Bind Logic</button>
+                    <button class="btn btn-outline" id="btn-unbind">Unbind Logic</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="log-panel" id="log-list">
+            <div class="log-entry">Event logs will appear here...</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            function logToUI(msg) {
+                $("#log-list").prepend('<div class="log-entry">[' + new Date().toLocaleTimeString() + '] <span>' + msg + '</span></div>');
+            }
+
+            // Mouse Events
+            $("#mouse-demo").on("click", function() { logToUI("Area clicked!"); });
+            $("#mouse-demo").on("dblclick", function() { logToUI("Area double clicked!"); });
+            $("#mouse-demo").on("mouseenter", function() { 
+                $(this).css("border-color", "var(--primary)"); 
+                $("#mouse-status").text("Mouse Entered");
+                logToUI("Mouse Entered Area");
+            });
+            $("#mouse-demo").on("mouseleave", function() { 
+                $(this).css("border-color", "var(--border)"); 
+                $("#mouse-status").text("Mouse Left");
+                logToUI("Mouse Left Area");
+            });
+            $("#mouse-demo").on("mousedown", function() { logToUI("Mouse Down..."); });
+            $("#mouse-demo").on("mouseup", function() { logToUI("Mouse Up!"); });
+
+            // Keyboard Events
+            $("#keyboard-input").on("keydown", function(e) {
+                $("#key-status").text("KeyDown: " + e.key + " | Code: " + e.keyCode);
+                logToUI("KeyDown: " + e.key);
+            });
+            $("#keyboard-input").on("keyup", function(e) {
+                logToUI("KeyUp: " + e.key);
+            });
+            $("#keyboard-input").on("focus", function() {
+                $(this).css("background", "rgba(79, 70, 229, 0.1)");
+                logToUI("Input Focused");
+            });
+            $("#keyboard-input").on("blur", function() {
+                $(this).css("background", "var(--bg-dark)");
+                logToUI("Input Blurred");
+            });
+
+            // Form Events
+            $("#form-select").on("change", function() {
+                logToUI("Selection changed to: " + $(this).val());
+            });
+
+            $("#demo-form").on("submit", function(e) {
+                e.preventDefault();
+                $("#form-status").text("Form submitted successfully!");
+                logToUI("Form Submited (Prevented Default)");
+                setTimeout(() => $("#form-status").text(""), 2000);
+            });
+
+            // on/off demonstration
+            let boundLogic = function() {
+                logToUI("Dynamic Logic Triggered!");
+                $(this).css("background", "var(--accent)");
+                setTimeout(() => $(this).css("background", "rgba(15, 23, 42, 0.5)"), 500);
+            };
+
+            $("#btn-bind").on("click", function() {
+                $("#advanced-demo").on("click", boundLogic);
+                logToUI("Logic bound to area above.");
+                $(this).text("Bound").removeClass("btn-outline").addClass("btn-success");
+            });
+
+            $("#btn-unbind").on("click", function() {
+                $("#advanced-demo").off("click", boundLogic);
+                logToUI("Logic unbound.");
+                $("#btn-bind").text("Bind Logic").addClass("btn-outline").removeClass("btn-success");
+            });
+        });
+    </script>
+</body>
+</html>

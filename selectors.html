@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selectors | JQueryLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2 style="font-family: 'Outfit', sans-serif; color: var(--primary);">JQueryLab</h2>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="selectors.html" class="active">Selectors</a>
+            <a href="attributes.html">Attributes</a>
+            <a href="events.html">Events</a>
+            <a href="style.html">Style</a>
+            <a href="traversing.html">Traversing</a>
+            <a href="effects.html">Effects</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>jQuery Selectors</h1>
+        <p style="color: var(--text-muted);">Select elements with precision using powerful jQuery syntax.</p>
+
+        <section class="card-grid" style="margin-top: 2rem;">
+            <!-- Basic Selectors -->
+            <div class="card">
+                <h3>Basic Selectors</h3>
+                <div class="demo-area" id="basic-demo">
+                    <p class="target-p">Paragraph 1 (class: target-p)</p>
+                    <div id="target-id">DIV (id: target-id)</div>
+                    <span>Span 1</span>, <span>Span 2</span>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" data-selector="p.target-p">Select Paragraph</button>
+                    <button class="btn btn-outline" data-selector="#target-id">Select ID</button>
+                    <button class="btn btn-outline" data-selector="span">Select Spans</button>
+                    <button class="btn btn-outline" data-selector="p, span">Select P & Spans</button>
+                </div>
+            </div>
+
+            <!-- Hierarchy Selectors -->
+            <div class="card">
+                <h3>Hierarchy Selectors</h3>
+                <div class="demo-area" id="hierarchy-demo">
+                    <div class="parent">
+                        Parent
+                        <div class="child">Child 1</div>
+                        <div class="child">Child 2</div>
+                    </div>
+                    <div class="sibling-start">Sibling Start (+)</div>
+                    <div class="sibling">Next Sibling 1</div>
+                    <div class="sibling">Next Sibling 2 (~)</div>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" data-selector=".parent .child">Descendant</button>
+                    <button class="btn btn-outline" data-selector=".parent > .child">Direct Child</button>
+                    <button class="btn btn-outline" data-selector=".sibling-start + .sibling">Adjacent (+)</button>
+                    <button class="btn btn-outline" data-selector=".sibling-start ~ .sibling">General (~)</button>
+                </div>
+            </div>
+
+            <!-- Filter Selectors -->
+            <div class="card">
+                <h3>Filter Selectors</h3>
+                <div class="demo-area" id="filter-demo">
+                    <ul>
+                        <li>Item 0 (:first, :even)</li>
+                        <li>Item 1 (:odd)</li>
+                        <li>Item 2 (:even, :eq(2))</li>
+                        <li>Item 3 (:odd)</li>
+                        <li class="skip">Item 4 (:last, :even, :not(.skip))</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" data-selector="li:first">:first</button>
+                    <button class="btn btn-outline" data-selector="li:last">:last</button>
+                    <button class="btn btn-outline" data-selector="li:even">:even</button>
+                    <button class="btn btn-outline" data-selector="li:odd">:odd</button>
+                    <button class="btn btn-outline" data-selector="li:eq(2)">:eq(2)</button>
+                    <button class="btn btn-outline" data-selector="li:not(.skip)">:not(.skip)</button>
+                </div>
+            </div>
+
+            <!-- Attribute Selectors -->
+            <div class="card">
+                <h3>Attribute Selectors</h3>
+                <div class="demo-area" id="attr-selector-demo">
+                    <input type="text" placeholder="Text input" name="user_name">
+                    <input type="email" placeholder="Email input" name="user_email">
+                    <a href="https://google.com" target="_blank">Google (blank)</a>
+                    <a href="docs/manual.pdf">Manual (PDF)</a>
+                    <img src="test_img.png" alt="Test Image" data-role="hero">
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" data-selector="[name]">Has [name]</button>
+                    <button class="btn btn-outline" data-selector="[name='user_name']">Name = user_name</button>
+                    <button class="btn btn-outline" data-selector="[name^='user']">Name starts with 'user'</button>
+                    <button class="btn btn-outline" data-selector="[href$='.pdf']">HREF ends with '.pdf'</button>
+                    <button class="btn btn-outline" data-selector="[alt*='Test']">ALT contains 'Test'</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="log-panel" id="log-list">
+            <div class="log-entry">Output logging enabled...</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

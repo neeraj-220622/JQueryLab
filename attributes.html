@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attributes | JQueryLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2 style="font-family: 'Outfit', sans-serif; color: var(--primary);">JQueryLab</h2>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="selectors.html">Selectors</a>
+            <a href="attributes.html" class="active">Attributes</a>
+            <a href="events.html">Events</a>
+            <a href="style.html">Style</a>
+            <a href="traversing.html">Traversing</a>
+            <a href="effects.html">Effects</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Attribute Methods</h1>
+        <p style="color: var(--text-muted);">Manage attributes, properties, and values dynamically.</p>
+
+        <section class="card-grid" style="margin-top: 2rem;">
+            <!-- attr() & removeAttr() -->
+            <div class="card">
+                <h3>attr() & removeAttr()</h3>
+                <div class="demo-area" id="attr-demo">
+                    <img id="demo-img" src="https://placehold.co/200x150/1e293b/4f46e5?text=JQueryLab" alt="JQuery Logo" style="width: 200px; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <p id="attr-info">Image Alt: JQuery Logo</p>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" onclick="changeImage()">Change Source</button>
+                    <button class="btn btn-outline" onclick="toggleAlt()">Toggle Alt Text</button>
+                    <button class="btn btn-outline" onclick="removeAttrAlt()">Remove Alt</button>
+                </div>
+            </div>
+
+            <!-- prop() -->
+            <div class="card">
+                <h3>prop()</h3>
+                <div class="demo-area" id="prop-demo">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <input type="checkbox" id="demo-check" style="width: 20px; height: 20px;">
+                        <label for="demo-check">Accept Terms and Conditions</label>
+                    </div>
+                    <p id="check-status" style="margin-top: 1rem; color: var(--text-muted);">Status: Unchecked</p>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" onclick="toggleCheck()">Toggle Checked</button>
+                    <button class="btn btn-outline" onclick="disableCheck()">Disable Checkbox</button>
+                </div>
+            </div>
+
+            <!-- val() -->
+            <div class="card">
+                <h3>val()</h3>
+                <div class="demo-area" id="val-demo">
+                    <input type="text" id="user-input" placeholder="Enter your name" style="width: 100%; padding: 0.75rem; border-radius: 0.25rem; border: 1px solid var(--border); background: var(--bg-dark); color: white; margin-bottom: 1rem;">
+                    <p id="val-display" style="color: var(--primary); font-weight: 600;">Value: </p>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" onclick="getValue()">Retrieve Value</button>
+                    <button class="btn btn-outline" onclick="setValue()">Set Static Value</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="log-panel" id="log-list">
+            <div class="log-entry">Attribute logs will appear here...</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        function log(msg) {
+            $("#log-list").prepend('<div class="log-entry">[' + new Date().toLocaleTimeString() + '] <span>' + msg + '</span></div>');
+        }
+
+        // Example Task: Change image source
+        function changeImage() {
+            let currentSrc = $("#demo-img").attr("src");
+            let newSrc = currentSrc.includes("JQueryLab") 
+                ? "https://placehold.co/200x150/1e293b/8b5cf6?text=Success" 
+                : "https://placehold.co/200x150/1e293b/4f46e5?text=JQueryLab";
+            $("#demo-img").attr("src", newSrc);
+            log("Changed image src to: " + newSrc);
+        }
+
+        function toggleAlt() {
+            let alt = $("#demo-img").attr("alt");
+            $("#demo-img").attr("alt", alt === "JQuery Logo" ? "New Interactive Alt" : "JQuery Logo");
+            $("#attr-info").text("Image Alt: " + $("#demo-img").attr("alt"));
+            log("Updated image alt");
+        }
+
+        function removeAttrAlt() {
+            $("#demo-img").removeAttr("alt");
+            $("#attr-info").text("Image Alt: undefined");
+            log("Removed image alt attribute");
+        }
+
+        // Example Task: Enable/disable checkbox
+        function toggleCheck() {
+            let isChecked = $("#demo-check").prop("checked");
+            $("#demo-check").prop("checked", !isChecked);
+            $("#check-status").text("Status: " + ($("#demo-check").prop("checked") ? "Checked" : "Unchecked"));
+            log("Toggled checkbox prop('checked')");
+        }
+
+        function disableCheck() {
+            let isDisabled = $("#demo-check").prop("disabled");
+            $("#demo-check").prop("disabled", !isDisabled);
+            log("Toggled checkbox disabled property to: " + (!isDisabled));
+        }
+
+        // Example Task: Retrieve input value
+        function getValue() {
+            let val = $("#user-input").val();
+            $("#val-display").text("Value: " + val);
+            log("Retrieved input value: " + val);
+        }
+
+        function setValue() {
+            $("#user-input").val("Student User");
+            getValue();
+            log("Set input value to 'Student User'");
+        }
+    </script>
+</body>
+</html>
